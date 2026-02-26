@@ -23,7 +23,7 @@ async function startMonitor() {
 
   async function updateDisplay() {
     try {
-      const status = await honcho.getDeriverStatus();
+      const status = await honcho.queueStatus();
 
       const {
         totalWorkUnits,

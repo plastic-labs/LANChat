@@ -92,7 +92,7 @@ export class ChatSocketClient {
     this.socket.emit("dialectic", { user, query }, callback);
   }
 
-  toggleObserve(callback: (response: { success?: boolean; observe_me?: boolean; message?: string; error?: string }) => void): void {
+  toggleObserve(callback: (response: { success?: boolean; observeMe?: boolean; message?: string; error?: string }) => void): void {
     if (!this.socket) return;
     this.socket.emit("toggle_observe", callback);
   }

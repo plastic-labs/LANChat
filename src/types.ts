@@ -35,7 +35,7 @@ export interface User {
   username: string;
   type: "human";
   socket?: any;
-  observe_me?: boolean;
+  observeMe?: boolean;
 }
 
 export interface Agent {
@@ -55,7 +55,7 @@ export interface NetworkInterface {
 
 // API response types
 export interface UsersResponse {
-  users: Array<{ id: string; username: string; type: string; observe_me: boolean }>;
+  users: Array<{ id: string; username: string; type: string; observeMe: boolean }>;
   agents: Array<{
     id: string;
     username: string;
@@ -73,9 +73,9 @@ export interface HistoryResponse {
 
 export interface HonchoMessage {
   id: string;
-  user_id: string;
+  userId: string;
   content: string;
-  created_at: string;
+  createdAt: string;
 }
 
 // Agent-specific types

@@ -1,6 +1,5 @@
 import { Server as SocketIOServer } from "socket.io";
-import { Honcho, Session, SessionPeerConfig } from "@honcho-ai/sdk";
-import { Honcho as HonchoCore } from "@honcho-ai/core";
+import { Honcho, Session } from "@honcho-ai/sdk";
 import type { Message, User, Agent } from "../types.js";
 import { MessageType } from "../types.js";
 import { generateId, print } from "./utils.js";
@@ -28,19 +27,19 @@ export function setupSocketIO(
           socket,
         };
         agents.set(socket.id, agent);
-        const agent_peer = await honcho.peer(username, { config: { observe_me: false } });
-        await session.addPeers([[agent_peer, new SessionPeerConfig(false, true)]]);
+        const agent_peer = await honcho.peer(username, { configuration: { observeMe: false } });
+        await session.addPeers([[agent_peer, { observeMe: false, observeOthers: true }]]);
         print(`agent registered: ${username}`, "green");
       } else {
         const user_peer = await honcho.peer(username);
         // get the user's existing config if it exists
-        const config = await user_peer.getPeerConfig() as Record<string, boolean>;
+        const config = await user_peer.getConfiguration() as Record<string, boolean>;
         const user: User = {
           id: socket.id,
           username,
           type: "human",
           socket,
-          observe_me: config.observe_me || true,
+          observeMe: config.observeMe || true,
         };
         await session.addPeers([user_peer]);
         print(`user registered: ${username}`, "green");
@@ -183,7 +182,7 @@ export function setupSocketIO(
         id: user.id,
         username: user.username,
         type: user.type,
-        observe_me: user.observe_me,
+        observeMe: user.observeMe,
       }));
 
       const agentList = Array.from(agents.values()).map((agent) => ({
@@ -198,7 +197,7 @@ export function setupSocketIO(
 
     socket.on("dialectic", async (data: { user: string; query: string }, callback: Function) => {
       const peer = await honcho.peer(data.user);
-      const response = await peer.chat(data.query, { sessionId: session.id });
+      const response = await peer.chat(data.query, { session: session.id });
       callback(response || "No response from agent");
     });
 
@@ -209,13 +208,13 @@ export function setupSocketIO(
         return;
       }
 
-      const newObserveStatus = !user.observe_me;
-      user.observe_me = newObserveStatus;
+      const newObserveStatus = !user.observeMe;
+      user.observeMe = newObserveStatus;
       connectedUsers.set(socket.id, user);
 
       try {
         const user_peer = await honcho.peer(user.username);
-        await user_peer.setPeerConfig({ observe_me: newObserveStatus, observe_others: false });
+        await user_peer.setConfiguration({ observeMe: newObserveStatus });
 
         const statusMessage = createMessage({
           type: MessageType.SYSTEM,
@@ -229,7 +228,7 @@ export function setupSocketIO(
 
         callback({
           success: true,
-          observe_me: newObserveStatus,
+          observeMe: newObserveStatus,
           message: `Observation ${newObserveStatus ? 'enabled' : 'disabled'}`
         });
 

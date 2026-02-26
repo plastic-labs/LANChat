@@ -21,7 +21,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@honcho-ai/sdk": "^1.5.0",
+    "@honcho-ai/sdk": "^2.0.1",
     "chalk": "^5.4.1",
     "hono": "^4.8.5",
     "ollama": "^0.5.16",

@@ -27,7 +27,7 @@ async function startVisualization() {
   async function updateDisplay() {
     try {
       // Get all sessions (should be only one)
-      const sessionsPage = await honcho.getSessions();
+      const sessionsPage = await honcho.sessions();
       const sessions = sessionsPage.items;
 
       if (sessions.length === 0) {
@@ -53,7 +53,7 @@ async function startVisualization() {
       }
 
       // Get all peers in the workspace
-      const peersPage = await honcho.getPeers();
+      const peersPage = await honcho.peers();
       const peers = peersPage.items;
 
       if (peers.length === 0) {
@@ -69,7 +69,7 @@ async function startVisualization() {
 
       for (const peer of peers) {
         try {
-          const context = await session.getContext({
+          const context = await session.context({
             peerTarget: peer.id,
             summary: false,
           });

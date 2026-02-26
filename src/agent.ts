@@ -107,10 +107,10 @@ Feel empowered to be chatty and ask follow-up questions.
     const session = await this.honcho.session(this.sessionId || "");
     const senderPeer = await this.honcho.peer(message.username);
     // Build context
-    const context = await session.getContext({
+    const context = await session.context({
       summary: true,
       tokens: 5000,
-      lastUserMessage: message.content,
+      searchQuery: message.content,
       peerTarget: message.username,
     });
     const recentContext: string = context.toOpenAI(this.agentName).join("\n");
@@ -333,7 +333,7 @@ JSON response:`,
 
       const peer = await this.honcho.peer(this.agentName);
       const dialecticResponse = await peer.chat(dialectic.question, {
-        sessionId: this.sessionId || undefined,
+        session: this.sessionId || undefined,
         target: dialectic.target,
       });
       return dialecticResponse;

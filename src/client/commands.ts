@@ -48,7 +48,7 @@ export class CommandHandler {
           if (response.error) {
             this.addSystemMessage(`Error: ${response.error}`);
           } else {
-            const usersList = response.users.map(u => `  ${u.username} (${u.type}) ${u.observe_me ? '(being observed)' : '(not being observed)'}`).join('\n');
+            const usersList = response.users.map(u => `  ${u.username} (${u.type}) ${u.observeMe ? '(being observed)' : '(not being observed)'}`).join('\n');
             const agentsList = response.agents.map(a => `  ${a.username} (${a.type}) [${a.capabilities.join(', ')}]`).join('\n');
             this.addSystemMessage(`Connected Users:\n${usersList}\n\nConnected Agents:\n${agentsList}`);
           }

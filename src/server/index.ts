@@ -36,17 +36,17 @@ async function startServer() {
   if (providedSessionId) {
     print("loading existing messages from session...", "yellow");
     try {
-      const existingMessagesPage = await session.getMessages();
+      const existingMessagesPage = await session.messages();
       const existingMessages = existingMessagesPage.items;
 
       for (const msg of existingMessages) {
         const message: Message = {
           id: msg.id,
           type: MessageType.CHAT,
-          username: msg.peer_id || "unknown",
+          username: msg.peerId || "unknown",
           content: msg.content,
           metadata: {
-            timestamp: msg.created_at || new Date().toISOString(),
+            timestamp: msg.createdAt || new Date().toISOString(),
             loadedFromSession: true,
           },
         };
