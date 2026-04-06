@@ -1,5 +1,6 @@
 import { Honcho } from "@honcho-ai/sdk";
 import chalk from "chalk";
+import { getHonchoConfig } from "./honcho.js";
 
 interface PeerRepInfo {
   peerId: string;
@@ -9,10 +10,7 @@ interface PeerRepInfo {
 
 async function startVisualization() {
   // Initialize Honcho with local SDK
-  const honcho = new Honcho({
-    baseURL: process.env.HONCHO_BASE_URL || "http://localhost:8000",
-    workspaceId: process.env.HONCHO_WORKSPACE_ID || "default",
-  });
+  const honcho = new Honcho(getHonchoConfig());
 
   // Clear screen and hide cursor
   process.stdout.write("\x1b[2J\x1b[?25l");

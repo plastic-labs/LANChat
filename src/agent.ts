@@ -3,6 +3,7 @@
 import { io, type Socket } from "socket.io-client";
 import { Ollama } from "ollama";
 import { Honcho } from "@honcho-ai/sdk";
+import { getHonchoConfig } from "./honcho.js";
 import type {
   Message,
   ResponseDecision,
@@ -37,11 +38,7 @@ class ChatAgent {
     this.agentName = agentName;
     this.ollama = new Ollama({ host: "http://localhost:11434" });
 
-    this.honcho = new Honcho({
-      baseURL: process.env.HONCHO_BASE_URL || "http://localhost:8000",
-      // apiKey: process.env.HONCHO_API_KEY,
-      workspaceId: agentName,
-    });
+    this.honcho = new Honcho(getHonchoConfig({ workspaceId: agentName }));
 
     this.systemPrompt =
       systemPrompt ||
@@ -105,13 +102,15 @@ Feel empowered to be chatty and ask follow-up questions.
 
   private async processMessage(message: Message): Promise<void> {
     const session = await this.honcho.session(this.sessionId || "");
-    const senderPeer = await this.honcho.peer(message.username);
+    const senderPeer = await this.honcho.peer(message.username, { configuration: { observeMe: true } });
     // Build context
     const context = await session.context({
       summary: true,
       tokens: 5000,
-      searchQuery: message.content,
       peerTarget: message.username,
+      representationOptions: {
+        searchQuery: message.content,
+      },
     });
     const recentContext: string = context.toOpenAI(this.agentName).join("\n");
     // add message to honcho
@@ -331,7 +330,7 @@ JSON response:`,
 
       const dialectic = JSON.parse(response.response) as Dialectic;
 
-      const peer = await this.honcho.peer(this.agentName);
+      const peer = await this.honcho.peer(this.agentName, { configuration: { observeMe: true } });
       const dialecticResponse = await peer.chat(dialectic.question, {
         session: this.sessionId || undefined,
         target: dialectic.target,
@@ -399,7 +398,7 @@ Please respond naturally as ${this.agentName}.`,
       });
       // save our own message to honcho
       const session = await this.honcho.session(this.sessionId || "");
-      const peer = await this.honcho.peer(this.agentName);
+      const peer = await this.honcho.peer(this.agentName, { configuration: { observeMe: true } });
       session.addMessages([peer.message(responseContent)]);
     } catch (error) {
       console.error("Error generating response:", error);

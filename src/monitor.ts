@@ -1,12 +1,10 @@
 import { Honcho } from "@honcho-ai/sdk";
 import chalk from "chalk";
+import { getHonchoConfig } from "./honcho.js";
 
 async function startMonitor() {
   // Initialize Honcho
-  const honcho = new Honcho({
-    baseURL: process.env.HONCHO_BASE_URL || "http://localhost:8000",
-    workspaceId: process.env.HONCHO_WORKSPACE_ID || "default",
-  });
+  const honcho = new Honcho(getHonchoConfig());
 
   // Terminal width for the bar
   const BAR_WIDTH = 50;

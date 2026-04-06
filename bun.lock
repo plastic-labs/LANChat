@@ -5,7 +5,7 @@
     "": {
       "name": "groupchat",
       "dependencies": {
-        "@honcho-ai/sdk": "^2.0.1",
+        "@honcho-ai/sdk": "2.1.0",
         "chalk": "^5.4.1",
         "hono": "^4.8.5",
         "ollama": "^0.5.16",
@@ -22,7 +22,7 @@
     },
   },
   "packages": {
-    "@honcho-ai/sdk": ["@honcho-ai/sdk@2.0.1", "", { "dependencies": { "@types/node": "^24.0.1", "zod": "4.0.0" } }, "sha512-y/Wk49C0N1miI9BZTNWFIbzdUkMZfP4Do/EJ1q4lEIK+FAOKxQgces/zET3kPKV3zF9sOUl2pXrFb/XKYayeYw=="],
+    "@honcho-ai/sdk": ["@honcho-ai/sdk@2.1.0", "", { "dependencies": { "zod": "4.0.0" } }, "sha512-GPyeKTDRhg5jd77RAh63LwrxLxnbluLdYUF1gsI6g6CU4eTyv8s1+KJ3/OTCiBwJ/dhjznNvQUngkUjjnNzUTA=="],
 
     "@socket.io/component-emitter": ["@socket.io/component-emitter@3.1.2", "", {}, "sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA=="],
 

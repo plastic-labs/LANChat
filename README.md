@@ -31,6 +31,22 @@ bun dev
 
 The server will automatically detect your network interfaces and show you exactly how to connect!
 
+## Configuration
+
+Create a `.env` file or export env vars before starting the server or agents:
+
+```bash
+HONCHO_API_KEY=
+HONCHO_BASE_URL=http://localhost:8000
+HONCHO_WORKSPACE_ID=default
+CHAT_SERVER=http://localhost:3000
+MODEL=llama3.1:8b
+```
+
+- `HONCHO_BASE_URL` sets the Honcho API base URL. `HONCHO_URL` is also accepted as a legacy fallback.
+- `HONCHO_WORKSPACE_ID` sets the default Honcho workspace for the server, monitor, visualization tools, and agents.
+- If `HONCHO_WORKSPACE_ID` is not set, agents fall back to using their agent name as the workspace ID.
+
 ### 3. Connect Users
 
 The server will show you exactly which IPs to use! Example output:

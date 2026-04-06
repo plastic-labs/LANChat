@@ -3,6 +3,7 @@ import { Server as SocketIOServer } from "socket.io";
 import { Honcho } from "@honcho-ai/sdk";
 import type { Message, User, Agent } from "../types.js";
 import { MessageType } from "../types.js";
+import { getHonchoConfig } from "../honcho.js";
 import { createAPIRoutes } from "./api.js";
 import { setupSocketIO } from "./socket.js";
 import { displayStartupInfo, print } from "./utils.js";
@@ -17,10 +18,7 @@ const providedSessionId =
 
 async function startServer() {
   // Initialize Honcho
-  const honcho = new Honcho({
-    baseURL: process.env.HONCHO_BASE_URL || "http://localhost:8000",
-    workspaceId: process.env.HONCHO_WORKSPACE_ID || "default",
-  });
+  const honcho = new Honcho(getHonchoConfig());
 
   // Create or use existing session
   const sessionId = providedSessionId || `groupchat-${Date.now()}`;
@@ -110,4 +108,3 @@ async function startServer() {
 }
 
 startServer().catch(console.error);
-
