@@ -43,7 +43,7 @@ journalist.connect().catch(console.error);
 
 // Handle graceful shutdown
 process.on("SIGINT", () => {
-  console.log("\n📰 And that's a wrap! This has been ${AGENT_NAME}, signing off...");
+  console.log(`\n📰 And that's a wrap! This has been ${AGENT_NAME}, signing off...`);
   journalist.disconnect();
   process.exit(0);
 });
